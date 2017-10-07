@@ -14,7 +14,7 @@ that with time I've decided to officialize with an structured rule book. As any 
 in order to make it easy to remember.
 
 ## The rules
-1. [Avoid \"The magic\"](rule1.html "Rule1: Avoid \'The magic\'")
+1. [Avoid \"The magic\"](rule1.md "Rule1: Avoid \'The magic\'")
 2. Limit dependencies
 3. Runaway from consultant style
 4. Be straightforward 

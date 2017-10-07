@@ -7,7 +7,7 @@ In the old times all application errors were indexed in never-ending lists in bi
 ## Quick start
 1. First of all include the Jar file in your compile and execution classpath.
 ### Maven
-```xml
+```Maven POM
 	<dependency>
 		<groupId>org.bytemechanics</groupId>
 		<artifactId>type-ex</artifactId>
@@ -15,7 +15,7 @@ In the old times all application errors were indexed in never-ending lists in bi
 	</dependency>
 ```
 ### Graddle
-```yml
+```Gradle
 dependencies {
     compile 'org.bytemechanics:type-ex:0.1.0'
 }
@@ -23,23 +23,19 @@ dependencies {
 2. Create an enum class to store your typified exceptions
 ```Java
 import com.bytemechanics.typeex.impl.TypifiedException;
-
 public enum MyExceptionType implements ExceptionType{
+EXCEPTION_TYPE_NO_PARAMETERIZED("This message has no substitution parameters"),
+EXCEPTION_TYPE_PARAMETERIZED("This message has two {} substitution parameters {}"),
+;	
+private final String message;
 	
-	EXCEPTION_TYPE_NO_PARAMETERIZED("This message has no substitution parameters"),
-	EXCEPTION_TYPE_PARAMETERIZED("This message has two {} substitution parameters {}"),
-	;
-	
-	private final String message;
-	
-	MyExceptionType(final String _message){
-		this.message=_message;
-	}
-	
-	@Override
-	public String getMessage() {
-		return this.message;
-	}
+MyExceptionType(final String _message){
+this.message=_message;
+}	
+@Override
+public String getMessage() {
+return this.message;
+}
 }
 ```
 3. Launch an exception
