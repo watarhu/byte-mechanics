@@ -10,4 +10,4 @@ _(Note: This website is under development, as soon as we have time we'll include
 ## Libraries
 All libraries requires at least Java 8+ to work properly. 
 
-1. [Type-ex] (/libraries/type-ex.html)
+1. [Type-ex] (/libraries/type-ex.html "Type-ex library website")
