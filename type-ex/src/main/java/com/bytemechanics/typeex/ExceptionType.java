@@ -15,6 +15,7 @@
  */
 package com.bytemechanics.typeex;
 
+import com.bytemechanics.typeex.impl.TypifiedException;
 import com.bytemechanics.typeex.internal.TypeExHelper;
 import java.util.function.Supplier;
 
@@ -25,7 +26,9 @@ public interface ExceptionType extends Supplier<TypifiableException>{
 	
 	public String name();
 	public String getMessage();
-	public Class<? extends TypifiableException> getExceptionClass();
+	public default Class<? extends TypifiableException> getExceptionClass(){
+		return TypifiedException.class;
+	}
 
 	
 	@Override

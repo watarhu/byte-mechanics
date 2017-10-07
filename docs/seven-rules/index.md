@@ -1,12 +1,12 @@
 # Seven Rules for Developer
-##About the author
-Name: Albert Farré Figueras
-Living place: Barcelona, Catalonia
-Current position: Architecture Team Leader
-Working in Computers Engineering since 2004 
-Preferred language: Java
-Preferred identation: Tabs (of course)
-Professional profile: [Linked In](https://www.linkedin.com/in/albert-farr%C3%A9-figueras-4348aa2 "Linked In")
+### About the author
+* Name: Albert Farré Figueras
+* Living place: Barcelona, Catalonia
+* Current position: Architecture Team Leader
+* Working in Computers Engineering since 2004 
+* Preferred language: Java
+* Preferred identation: Tabs (of course)
+* Professional profile: [Linked In](https://www.linkedin.com/in/albert-farr%C3%A9-figueras-4348aa2 "Linked In")
 
 ## Motivation
 After developing several years in different companies I've seen some common mistakes on myself and my colleges, during years I've been improving my code quality and speed by following a few principles 

@@ -1,4 +1,4 @@
-#1. Avoid "The magic"
+# Rule 1: Avoid "The magic"
 
 ## Illness
 Most times developers use libraries without understanding fully what's happening under the hood.
