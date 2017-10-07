@@ -99,7 +99,6 @@ class TypifiedExceptionSpec extends Specification {
 		when:
 			result=MockedTypifiedExceptionType.TEST_WITH_PARAMS
 										.with("String1",1);
-			println("STACKTRACE!:\n"+result.getStringStacktrace())
 
 		then:
 			result.getStringStacktrace().isPresent()

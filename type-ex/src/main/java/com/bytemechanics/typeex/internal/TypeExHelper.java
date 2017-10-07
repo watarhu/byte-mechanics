@@ -42,7 +42,6 @@ public final class TypeExHelper {
 			final Constructor constructor=_exceptionType.getExceptionClass().getConstructor(Throwable.class,ExceptionType.class,Object[].class);
 			reply=(TypifiableException)constructor.newInstance(_cause,_exceptionType,_args);
 		} catch (NoSuchMethodException|SecurityException|InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException e) {
-			e.printStackTrace();
 			throw new Error(format("Unable to construct typified exception {} with {} caused: {}",_exceptionType,_exceptionType.getExceptionClass(),e.getMessage()),e);
 		}
 		
