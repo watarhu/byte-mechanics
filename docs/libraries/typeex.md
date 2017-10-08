@@ -7,7 +7,7 @@ In the old times all application errors were indexed in never-ending lists in bi
 ## Quick start
 1. First of all include the Jar file in your compile and execution classpath.
 ### Maven
-```Maven POM
+```Maven
 	<dependency>
 		<groupId>org.bytemechanics</groupId>
 		<artifactId>type-ex</artifactId>
