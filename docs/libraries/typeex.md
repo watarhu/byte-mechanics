@@ -20,7 +20,7 @@ dependencies {
     compile 'org.bytemechanics:type-ex:0.1.0'
 }
 ```
-2. Create an enum to store your typified exceptions
+2. Create your typified exceptions
 ```Java
 package mypackage;
 import com.bytemechanics.typeex.impl.TypifiedException;
