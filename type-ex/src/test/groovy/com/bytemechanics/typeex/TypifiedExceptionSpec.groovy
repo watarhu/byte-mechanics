@@ -102,58 +102,6 @@ class TypifiedExceptionSpec extends Specification {
 
 		then:
 			result.getStringStacktrace().isPresent()
-			result.getStringStacktrace().get()=="com.bytemechanics.typeex.impl.TypifiedException: Test message with parameter1 String1 and parameter2 1"+
-												"\n\tat sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)"+
-												"\n\tat sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)"+
-												"\n\tat sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)"+
-												"\n\tat java.lang.reflect.Constructor.newInstance(Constructor.java:423)"+
-												"\n\tat com.bytemechanics.typeex.internal.TypeExHelper.instance(TypeExHelper.java:43)"+
-												"\n\tat com.bytemechanics.typeex.ExceptionType.with(ExceptionType.java:39)"+
-												"\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)"+
-												"\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)"+
-												"\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)"+
-												"\n\tat java.lang.reflect.Method.invoke(Method.java:498)"+
-												"\n\tat org.codehaus.groovy.runtime.callsite.PojoMetaMethodSite\$PojoCachedMethodSite.invoke(PojoMetaMethodSite.java:192)"+
-												"\n\tat org.codehaus.groovy.runtime.callsite.PojoMetaMethodSite.call(PojoMetaMethodSite.java:56)"+
-												"\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)"+
-												"\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:113)"+
-												"\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:133)"+
-												"\n\tat com.thegame.commons.exceptions.TypifiedExceptionSpec.\$spock_feature_0_4(TypifiedExceptionSpec.groovy:100)"+
-												"\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)"+
-												"\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)"+
-												"\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)"+
-												"\n\tat java.lang.reflect.Method.invoke(Method.java:498)"+
-												"\n\tat org.spockframework.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:188)"+
-												"\n\tat org.spockframework.runtime.model.MethodInfo.invoke(MethodInfo.java:84)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.invokeRaw(BaseSpecRunner.java:481)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.invoke(BaseSpecRunner.java:464)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.runFeatureMethod(BaseSpecRunner.java:406)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.doRunIteration(BaseSpecRunner.java:324)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner\$6.invoke(BaseSpecRunner.java:309)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.invokeRaw(BaseSpecRunner.java:481)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.invoke(BaseSpecRunner.java:464)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.runIteration(BaseSpecRunner.java:288)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.initializeAndRunIteration(BaseSpecRunner.java:278)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.runSimpleFeature(BaseSpecRunner.java:269)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.doRunFeature(BaseSpecRunner.java:263)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner\$5.invoke(BaseSpecRunner.java:246)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.invokeRaw(BaseSpecRunner.java:481)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.invoke(BaseSpecRunner.java:464)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.runFeature(BaseSpecRunner.java:238)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.runFeatures(BaseSpecRunner.java:188)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.doRunSpec(BaseSpecRunner.java:98)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner\$1.invoke(BaseSpecRunner.java:84)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.invokeRaw(BaseSpecRunner.java:481)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.invoke(BaseSpecRunner.java:464)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.runSpec(BaseSpecRunner.java:76)"+
-												"\n\tat org.spockframework.runtime.BaseSpecRunner.run(BaseSpecRunner.java:67)"+
-												"\n\tat org.spockframework.runtime.Sputnik.run(Sputnik.java:63)"+
-												"\n\tat org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:283)"+
-												"\n\tat org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:173)"+
-												"\n\tat org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:153)"+
-												"\n\tat org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:128)"+
-												"\n\tat org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:203)"+
-												"\n\tat org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:155)"+
-												"\n\tat org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:103)\n"
-	}
+			result.getStringStacktrace().get()!=null
+    }
 }
