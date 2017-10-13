@@ -22,8 +22,11 @@ import java.util.Optional;
 
 
 /**
- *
+ * Java Error TypifiableException base class. 
+ * @see TypifiableException
+ * @see Error
  * @author afarre
+ * @since 0.1.0
  */
 public class TypifiedError extends Error implements TypifiableException{
 
@@ -31,9 +34,26 @@ public class TypifiedError extends Error implements TypifiableException{
 	private final Optional<Object[]> arguments;
 	
 	
+	/**
+	 * Constructor of this TypifiedError
+	 *
+	 * @param _exceptionType ExceptionType represented by this exception
+	 * @param _arguments arguments to replace in the ExceptionType message
+	 * @see ExceptionType
+	 * @since 0.1.0
+	 */
 	public TypifiedError(final ExceptionType _exceptionType,final Object... _arguments){
 		this(null,_exceptionType,_arguments);
 	}
+	/**
+	 * Constructor of this TypifiedError
+	 *
+	 * @param _cause original cause of this exception
+	 * @param _exceptionType ExceptionType represented by this exception
+	 * @param _arguments arguments to replace in the ExceptionType message
+	 * @see ExceptionType
+	 * @since 0.1.0
+	 */
 	public TypifiedError(final Throwable _cause,final ExceptionType _exceptionType,final Object... _arguments){
 		super(_exceptionType.getMessage(),_cause);
 		this.exceptionType=_exceptionType;
@@ -43,14 +63,37 @@ public class TypifiedError extends Error implements TypifiableException{
 	}
 	
 	
+	/**
+	 * Returns the formatted message of this TypifiableException
+	 *
+	 * @return The formatted message of this TypifiableException
+	 * @see Throwable#getMessage()
+	 * @see TypifiableException
+	 * @since 0.1.0
+	 */
 	@Override
 	public String getMessage() {
-		return getFormatedMessage();
+		return getFormattedMessage();
 	}
+	/**
+	 * Returns the provided ExceptionType
+	 *
+	 * @return The provided ExceptionType
+	 * @see TypifiableException#getExceptionType()
+	 * @see ExceptionType
+	 * @since 0.1.0
+	 */
 	@Override
 	public final ExceptionType getExceptionType(){
 		return this.exceptionType;
 	}
+	/**
+	 * Returns the provided message arguments
+	 *
+	 * @return The provided message arguments
+	 * @see TypifiableException#getArguments()
+	 * @since 0.1.0
+	 */
 	@Override
 	public final Optional<Object[]> getArguments() {
 		return	this.arguments

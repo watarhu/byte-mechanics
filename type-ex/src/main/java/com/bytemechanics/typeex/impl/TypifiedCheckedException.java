@@ -20,39 +20,85 @@ import com.bytemechanics.typeex.TypifiableException;
 import java.util.Arrays;
 import java.util.Optional;
 
-
 /**
+ * Abstract checked TypifiableException base class. As checked exceptions require individual catch this class is abstract in order to create an individual class for each instance
+ * <br>Note: We encourage to avoid checked exceptions in order to have less problems working with lambdas
  *
+ * @see TypifiableException
+ * @see Exception
  * @author afarre
+ * @since 0.1.0
  */
-public abstract class TypifiedCheckedException extends Exception implements TypifiableException{
+public abstract class TypifiedCheckedException extends Exception implements TypifiableException {
 
 	private final ExceptionType exceptionType;
 	private final Optional<Object[]> arguments;
-	
-	
-	public TypifiedCheckedException(final ExceptionType _exceptionType,final Object... _arguments){
-		this(null,_exceptionType,_arguments);
+
+	/**
+	 * Constructor of this TypifiedCheckedException
+	 *
+	 * @param _exceptionType ExceptionType represented by this exception
+	 * @param _arguments arguments to replace in the ExceptionType message
+	 * @see ExceptionType
+	 * @since 0.1.0
+	 */
+	public TypifiedCheckedException(final ExceptionType _exceptionType, final Object... _arguments) {
+		this(null, _exceptionType, _arguments);
 	}
-	public TypifiedCheckedException(final Throwable _cause,final ExceptionType _exceptionType,final Object... _arguments){
-		super(_exceptionType.getMessage(),_cause);
-		this.exceptionType=_exceptionType;
-		this.arguments=Optional.ofNullable(_arguments)
-							.filter(args -> args.length>0)
-							.map(args -> Arrays.copyOf(args, args.length));
+
+	/**
+	 * Constructor of this TypifiedCheckedException
+	 *
+	 * @param _cause original cause of this exception
+	 * @param _exceptionType ExceptionType represented by this exception
+	 * @param _arguments arguments to replace in the ExceptionType message
+	 * @see ExceptionType
+	 * @since 0.1.0
+	 */
+	public TypifiedCheckedException(final Throwable _cause, final ExceptionType _exceptionType, final Object... _arguments) {
+		super(_exceptionType.getMessage(), _cause);
+		this.exceptionType = _exceptionType;
+		this.arguments = Optional.ofNullable(_arguments)
+				.filter(args -> args.length > 0)
+				.map(args -> Arrays.copyOf(args, args.length));
 	}
-	
+
+	/**
+	 * Returns the formatted message of this TypifiableException
+	 *
+	 * @return The formatted message of this TypifiableException
+	 * @see Throwable#getMessage()
+	 * @see TypifiableException
+	 * @since 0.1.0
+	 */
 	@Override
 	public String getMessage() {
-		return getFormatedMessage();
+		return getFormattedMessage();
 	}
+
+	/**
+	 * Returns the provided ExceptionType
+	 *
+	 * @return The provided ExceptionType
+	 * @see TypifiableException#getExceptionType()
+	 * @see ExceptionType
+	 * @since 0.1.0
+	 */
 	@Override
-	public final ExceptionType getExceptionType(){
+	public final ExceptionType getExceptionType() {
 		return this.exceptionType;
 	}
+
+	/**
+	 * Returns the provided message arguments
+	 *
+	 * @return The provided message arguments
+	 * @see TypifiableException#getArguments()
+	 * @since 0.1.0
+	 */
 	@Override
 	public final Optional<Object[]> getArguments() {
-		return	this.arguments
-					.map(args -> Arrays.copyOf(args, args.length));
+		return this.arguments
+				.map(args -> Arrays.copyOf(args, args.length));
 	}
-} 
+}

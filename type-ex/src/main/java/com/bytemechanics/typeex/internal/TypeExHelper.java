@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Helper class for internal use only
- * Please keep in mind that this class can be changed, renamed, deleted or extended without previous advice between fix releases, minor versions or major versions
+ * Helper class for <strong>internal use only</strong>
+ * Please keep in mind that this <strong>iclass can be changed, renamed, deleted or extended without previous advice between fix releases, minor versions or major versions</strong>
  * @author Albert Farré Figueras
  * @since 0.0.1
  * @version 1.0.0
