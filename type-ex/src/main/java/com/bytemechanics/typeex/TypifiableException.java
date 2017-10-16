@@ -19,7 +19,9 @@ import com.bytemechanics.typeex.internal.TypeExHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,9 +29,10 @@ import java.util.logging.Logger;
  * Interface to be implemented by any typified exception
  *
  * @author afarre
+ * @param <T> extends herself
  * @since 0.1.0
  */
-public interface TypifiableException {
+public interface TypifiableException<T extends TypifiableException> extends Supplier<T> {
 
 	/**
 	 * @return Throwable cause
@@ -67,27 +70,45 @@ public interface TypifiableException {
 	}
 
 	/**
+	 * Supplier implementation in order to reduce code boilerplate
+	 * 
+	 * @See Supplier
+	 * @return this instance
+	 * @since 0.3.0
+	 */
+	@Override
+	public default T get() {
+		return (T)this;
+	}
+	
+	/**
 	 * Returns clone of this same TypifiableException object with the given cause
 	 *
 	 * @param _cause cause of the exception
-	 * @return The TypifiableException class
-	 * @see TypifiableException
-	 * @since 0.1.0
+	 * @return The T instance
+	 * @since 0.3.0
 	 */
-	public default TypifiableException from(final Throwable _cause) {
-		return TypeExHelper.instance(_cause, getExceptionType(), getArguments().orElse(null));
+	public default T from(final Throwable _cause) {
+		return TypeExHelper.findSuitableConstructor(getExceptionType())
+							.flatMap(constructor -> TypeExHelper.instance(constructor,_cause, getExceptionType(),getArguments().orElse(null)))
+							.map(instance -> (T)instance)
+							.orElseThrow(() -> new Error(TypeExHelper.format("Unable to find any suitable constructor for class {} with arguments {}"
+																	,getExceptionType().getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,getExceptionType().getClass(),Object[].class}))));
 	}
 
 	/**
 	 * Returns clone of this same TypifiableException object with the given arguments to replace into message
 	 *
 	 * @param _args arguments to replace to the getMessage() text with the same format basis explained above
-	 * @return The TypifiableException class
-	 * @see TypifiableException
-	 * @since 0.1.0
+	 * @return The T instance
+	 * @since 0.3.0
 	 */
-	public default TypifiableException with(final Object... _args) {
-		return TypeExHelper.instance(getCause(), getExceptionType(), _args);
+	public default T with(final Object... _args) {
+		return TypeExHelper.findSuitableConstructor(getExceptionType())
+							.flatMap(constructor -> TypeExHelper.instance(constructor,getCause(), getExceptionType(),_args))
+							.map(instance -> (T)instance)
+							.orElseThrow(() -> new Error(TypeExHelper.format("Unable to find any suitable constructor for class {} with arguments {}"
+																	,getExceptionType().getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,getExceptionType().getClass(),Object[].class}))));
 	}
 
 	/**

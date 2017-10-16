@@ -21,9 +21,10 @@ import com.bytemechanics.typeex.impl.TypifiedError;
 /**
  * @author afarre
  */
-public enum MockedTypifiedErrorType implements ExceptionType{
+public enum MockedTypifiedErrorType implements ExceptionType<TypifiedError>{
 	
 	TEST_NO_PARAMS("Test message without parameters"),
+	TEST_WITH_1_PARAM("Test message with parameter1 {} other"),
 	TEST_WITH_PARAMS("Test message with parameter1 {} and parameter2 {}"),
 	;
 	
@@ -39,7 +40,7 @@ public enum MockedTypifiedErrorType implements ExceptionType{
 	}
 
 	@Override
-	public Class<TypifiedError> getExceptionClass() {
+	public Class<? extends TypifiedError> getExceptionClass() {
 		return TypifiedError.class;
 	}
 }
