@@ -48,6 +48,7 @@
 
 	<modules>
 		<module>type-ex</module>
+	 <module>fluent-logger</module>
 	</modules>
 	
 	<properties>
