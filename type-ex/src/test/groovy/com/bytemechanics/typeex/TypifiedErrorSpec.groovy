@@ -57,6 +57,54 @@ class TypifiedErrorSpec extends Specification {
 			result.getMessage().equals(MockedTypifiedErrorType.TEST_NO_PARAMS.getMessage())
 	}
 
+	def "Build a typified exception  with 1 argument will create the correct exception type with its correspondent message"(){
+		setup:
+			def Object[] arguments=["String1",1]
+			def TypifiedError result;
+			
+		when:
+			result=MockedTypifiedErrorType.TEST_WITH_1_PARAM
+											.with(null);
+		then:
+			result!=null
+			result.getArguments().isPresent()
+			result.getArguments().get()==[null]
+			result.getCause()==null
+			result.getExceptionType().equals(MockedTypifiedErrorType.TEST_WITH_1_PARAM)
+			result.getMessage().equals("Test message with parameter1 String1 other")
+	}
+
+	def "Build a typified exception  with 1 argument and case will create the correct exception type with its correspondent message"(){
+		setup:
+			def Throwable cause=new RuntimeException("My cause");
+			def TypifiedError result;
+			
+		when:
+			result=MockedTypifiedErrorType.TEST_WITH_1_PARAM
+										.from(cause)
+										.with("String1");
+		then:
+			result!=null
+			result.getArguments().isPresent()
+			result.getArguments().get()==["String1"]
+			result.getCause().equals(cause)
+			result.getExceptionType().equals(MockedTypifiedErrorType.TEST_WITH_1_PARAM)
+			result.getMessage().equals("Test message with parameter1 String1 other")
+	}
+	def "A Typified exception with 1 argument should be able to create stacktrace into an string correctly"(){
+		setup:
+			def TypifiedError result;
+			
+		when:
+			result=MockedTypifiedErrorType.TEST_WITH_1_PARAM
+										.with("String1");
+
+		then:
+			result.getStringStacktrace().isPresent()
+			result.getStringStacktrace().get()!=null
+	}
+	
+	
 	def "Build a typified exception with arguments will create the correct exception type with its correspondent message"(){
 		setup:
 			def Object[] arguments=["String1",1]

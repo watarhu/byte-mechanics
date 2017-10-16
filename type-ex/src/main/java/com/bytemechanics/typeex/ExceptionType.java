@@ -17,18 +17,20 @@ package com.bytemechanics.typeex;
 
 import com.bytemechanics.typeex.impl.TypifiedException;
 import com.bytemechanics.typeex.internal.TypeExHelper;
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 /**
  * Main interface to apply over any exception type. Can be applied also over standard object or over enum although recommended place is over an enum. This interface also extend a supplier of
  * TypifiableException
  *
+ * @param <T> Something extending typifiable exception
  * @see TypifiableException
  * @see Supplier
  * @author e103880
  * @since 0.1.0
  */
-public interface ExceptionType extends Supplier<TypifiableException> {
+public interface ExceptionType<T extends TypifiableException> extends Supplier<T> {
 
 	/**
 	 * Name of the exception type Note: It's mandatory to implement this method if the implementing class is not an enum, otherwise the enum already implements name() method
@@ -52,48 +54,60 @@ public interface ExceptionType extends Supplier<TypifiableException> {
 	 * Exception class to use with this kind of exception 
 	 * <br>Note: It's not mandatory to implement if TypifiedException is the type of exception you want to raise
 	 *
-	 * @return The TypifiableException class assigned to this exception (by default TypifiedException)
+	 * @return The T class assigned to this exception (by default TypifiedException)
 	 * @see TypifiedException
 	 * @see TypifiableException
-	 * @since 0.1.0
+	 * @since 0.3.0
 	 */
-	public default Class<? extends TypifiableException> getExceptionClass() {
-		return TypifiedException.class;
+	public default Class<? extends T> getExceptionClass() {
+		return (Class<T>)TypifiedException.class;
 	}
 
 	/**
 	 * Returns the instance of the getExceptionClass() with this typified exception
 	 *
-	 * @return The TypifiableException class
+	 * @return The T instance
 	 * @see TypifiableException
-	 * @since 0.1.0
+	 * @since 0.3.0
 	 */
 	@Override
-	public default TypifiableException get() {
-		return TypeExHelper.instance(null, this);
+	public default T get() {
+		return TypeExHelper.findSuitableConstructor(this)
+							.flatMap(constructor -> TypeExHelper.instance(constructor,null, this))
+							.map(instance -> (T)instance)
+							.orElseThrow(() -> new Error(TypeExHelper.format("Unable to find any suitable constructor for class {} with arguments {}"
+																	,this.getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,this.getClass(),Object[].class}))));
 	}
 
 	/**
 	 * Returns the instance of the getExceptionClass() with this typified exception with the given cause
 	 *
 	 * @param _cause cause of the exception
-	 * @return The TypifiableException class
+	 * @return The T instance
 	 * @see TypifiableException
-	 * @since 0.1.0
+	 * @since 0.3.0
 	 */
-	public default TypifiableException from(final Throwable _cause) {
-		return TypeExHelper.instance(_cause, this);
+	public default T from(final Throwable _cause) {
+		return TypeExHelper.findSuitableConstructor(this)
+							.flatMap(constructor -> TypeExHelper.instance(constructor,_cause, this))
+							.map(instance -> (T)instance)
+							.orElseThrow(() -> new Error(TypeExHelper.format("Unable to find any suitable constructor for class {} with arguments {}"
+																	,this.getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,this.getClass(),Object[].class}))));
 	}
 
 	/**
 	 * Returns the instance of the getExceptionClass() with this typified exception with the given arguments
 	 *
 	 * @param _args arguments to replace to the getMessage() text with the same format basis explained above
-	 * @return The TypifiableException class
+	 * @return The T instance
 	 * @see TypifiableException
-	 * @since 0.1.0
+	 * @since 0.3.0
 	 */
-	public default TypifiableException with(final Object... _args) {
-		return TypeExHelper.instance(null, this, _args);
+	public default T with(final Object... _args) {
+		return TypeExHelper.findSuitableConstructor(this)
+							.flatMap(constructor -> TypeExHelper.instance(constructor,null, this,_args))
+							.map(instance -> (T)instance)
+							.orElseThrow(() -> new Error(TypeExHelper.format("Unable to find any suitable constructor for class {} with arguments {}"
+																	,this.getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,this.getClass(),Object[].class}))));
 	}
 }

@@ -19,9 +19,10 @@ package com.bytemechanics.typeex;
 /**
  * @author afarre
  */
-public enum MockedTypifiedCheckedExceptionType implements ExceptionType{
+public enum MockedTypifiedCheckedExceptionType implements ExceptionType<MockedCheckedException>{
 	
 	TEST_NO_PARAMS("Test message without parameters"),
+	TEST_WITH_1_PARAM("Test message with parameter1 {} other"),
 	TEST_WITH_PARAMS("Test message with parameter1 {} and parameter2 {}"),
 	;
 	
@@ -37,7 +38,7 @@ public enum MockedTypifiedCheckedExceptionType implements ExceptionType{
 	}
 
 	@Override
-	public Class<MockedCheckedException> getExceptionClass() {
+	public Class<? extends MockedCheckedException> getExceptionClass() {
 		return MockedCheckedException.class;
 	}
 }
