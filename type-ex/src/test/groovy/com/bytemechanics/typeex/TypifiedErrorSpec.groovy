@@ -39,7 +39,6 @@ class TypifiedErrorSpec extends Specification {
 			result.getExceptionType().equals(MockedTypifiedErrorType.TEST_NO_PARAMS)
 			result.getMessage().equals(MockedTypifiedErrorType.TEST_NO_PARAMS.getMessage())
 	}
-
 	def "Build a typified exception with cause will create the correct exception type with its correspondent cause"(){
 		setup:
 			def Throwable cause=new RuntimeException("My cause");
@@ -57,7 +56,7 @@ class TypifiedErrorSpec extends Specification {
 			result.getMessage().equals(MockedTypifiedErrorType.TEST_NO_PARAMS.getMessage())
 	}
 
-	def "Build a typified exception  with 1 argument will create the correct exception type with its correspondent message"(){
+	def "Build a typified exception with 1 argument will create the correct exception type with its correspondent message"(){
 		setup:
 			def Object[] arguments=["String1",1]
 			def TypifiedError result;
@@ -67,14 +66,12 @@ class TypifiedErrorSpec extends Specification {
 											.with(null);
 		then:
 			result!=null
-			result.getArguments().isPresent()
-			result.getArguments().get()==[null]
+			!result.getArguments().isPresent()
 			result.getCause()==null
 			result.getExceptionType().equals(MockedTypifiedErrorType.TEST_WITH_1_PARAM)
-			result.getMessage().equals("Test message with parameter1 String1 other")
+			result.getMessage().equals(MockedTypifiedErrorType.TEST_WITH_1_PARAM.getMessage())
 	}
-
-	def "Build a typified exception  with 1 argument and case will create the correct exception type with its correspondent message"(){
+	def "Build a typified exception with 1 argument and case will create the correct exception type with its correspondent message"(){
 		setup:
 			def Throwable cause=new RuntimeException("My cause");
 			def TypifiedError result;
@@ -104,10 +101,8 @@ class TypifiedErrorSpec extends Specification {
 			result.getStringStacktrace().get()!=null
 	}
 	
-	
 	def "Build a typified exception with arguments will create the correct exception type with its correspondent message"(){
 		setup:
-			def Object[] arguments=["String1",1]
 			def TypifiedError result;
 			
 		when:
@@ -121,7 +116,6 @@ class TypifiedErrorSpec extends Specification {
 			result.getExceptionType().equals(MockedTypifiedErrorType.TEST_WITH_PARAMS)
 			result.getMessage().equals("Test message with parameter1 String1 and parameter2 1")
 	}
-
 	def "Build a typified exception with arguments and case will create the correct exception type with its correspondent message"(){
 		setup:
 			def Throwable cause=new RuntimeException("My cause");

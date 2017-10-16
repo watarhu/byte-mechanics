@@ -96,7 +96,7 @@ public class TypifiedError extends Error implements TypifiableException<Typified
 	 */
 	@Override
 	public final Optional<Object[]> getArguments() {
-		return	this.arguments
+		return this.arguments
 					.map(args -> Arrays.copyOf(args, args.length));
 	}
 } 

@@ -39,7 +39,6 @@ class TypifiedCheckedExceptionSpec extends Specification {
 			result.getExceptionType().equals(MockedTypifiedCheckedExceptionType.TEST_NO_PARAMS)
 			result.getMessage().equals(MockedTypifiedCheckedExceptionType.TEST_NO_PARAMS.getMessage())
 	}
-
 	def "Build a typified exception with cause will create the correct exception type with its correspondent cause"(){
 		setup:
 			def Throwable cause=new RuntimeException("My cause");
@@ -59,7 +58,6 @@ class TypifiedCheckedExceptionSpec extends Specification {
 	
 	def "Build a typified exception with 1 argument will create the correct exception type with its correspondent message"(){
 		setup:
-			def Object[] arguments=["String1",1]
 			def TypifiedCheckedException result;
 			
 		when:
@@ -73,7 +71,6 @@ class TypifiedCheckedExceptionSpec extends Specification {
 			result.getExceptionType().equals(MockedTypifiedCheckedExceptionType.TEST_WITH_1_PARAM)
 			result.getMessage().equals("Test message with parameter1 String1 other")
 	}
-
 	def "Build a typified exception with 1 argument and case will create the correct exception type with its correspondent message"(){
 		setup:
 			def Throwable cause=new RuntimeException("My cause");
@@ -85,13 +82,11 @@ class TypifiedCheckedExceptionSpec extends Specification {
 										.with(null);
 		then:
 			result!=null
-			result.getArguments().isPresent()
-			result.getArguments().get()==[null]
+			!result.getArguments().isPresent()
 			result.getCause().equals(cause)
 			result.getExceptionType().equals(MockedTypifiedCheckedExceptionType.TEST_WITH_1_PARAM)
-			result.getMessage().equals("Test message with parameter1 String1 other")
+			result.getMessage().equals(MockedTypifiedCheckedExceptionType.TEST_WITH_1_PARAM.getMessage())
 	}
-
 	def "A Typified exception with 1 argument should be able to create stacktrace into an string correctly"(){
 		setup:
 			def TypifiedCheckedException result;
@@ -105,9 +100,8 @@ class TypifiedCheckedExceptionSpec extends Specification {
 			result.getStringStacktrace().get()!=null
 	}
 	
-	def "Build a typified exception with 1 argument will create the correct exception type with its correspondent message"(){
+	def "Build a typified exception with arguments will create the correct exception type with its correspondent message"(){
 		setup:
-			def Object[] arguments=["String1",1]
 			def TypifiedCheckedException result;
 			
 		when:
@@ -121,7 +115,6 @@ class TypifiedCheckedExceptionSpec extends Specification {
 			result.getExceptionType().equals(MockedTypifiedCheckedExceptionType.TEST_WITH_PARAMS)
 			result.getMessage().equals("Test message with parameter1 String1 and parameter2 1")
 	}
-
 	def "Build a typified exception with arguments and case will create the correct exception type with its correspondent message"(){
 		setup:
 			def Throwable cause=new RuntimeException("My cause");
@@ -139,7 +132,6 @@ class TypifiedCheckedExceptionSpec extends Specification {
 			result.getExceptionType().equals(MockedTypifiedCheckedExceptionType.TEST_WITH_PARAMS)
 			result.getMessage().equals("Test message with parameter1 String1 and parameter2 1")
 	}
-
 	def "A Typified exception should be able to create stacktrace into an string correctly"(){
 		setup:
 			def TypifiedCheckedException result;

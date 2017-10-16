@@ -37,7 +37,7 @@ class TypeExHelperSpec extends Specification {
 		
 		where:
 			message							| arguments					| result
-			"message without args"			| []						| "message without args"
+ 			"message without args"			| []						| "message without args"
 			"message without args"			| ["fsdf"]					| "message without args"
 			"message without args"			| [1]						| "message without args"
 			"message with 1:{} arg"			| []						| "message with 1:null arg"
@@ -55,7 +55,7 @@ class TypeExHelperSpec extends Specification {
 			"message with arg 1:{},2:{}"	| [1]						| "message with arg 1:1,2:null"
 			"message with arg 1:{},2:{}"	| ["fsdf",2]				| "message with arg 1:fsdf,2:2"
 			"message with arg 1:{},2:{}"	| ["fsdf","fsdfsd"]			| "message with arg 1:fsdf,2:fsdfsd"
-			"{} message with arg 1:,2:{}"	| []						| "null message with arg 2:null"
+			"{} message with arg 1:,2:{}"	| []						| "null message with arg 1:,2:null"
 			"{} message with arg 2:{}"		| ["fsdf"]					| "fsdf message with arg 2:null"
 			"{} message with arg 2:{}"		| [1]						| "1 message with arg 2:null"
 			"{} message with arg 2:{}"		| ["fsdf",2]				| "fsdf message with arg 2:2"
