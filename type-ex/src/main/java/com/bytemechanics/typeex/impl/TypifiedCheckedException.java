@@ -29,7 +29,7 @@ import java.util.Optional;
  * @author afarre
  * @since 0.1.0
  */
-public abstract class TypifiedCheckedException extends Exception implements TypifiableException {
+public abstract class TypifiedCheckedException extends Exception implements TypifiableException<TypifiedCheckedException> {
 
 	private final ExceptionType exceptionType;
 	private final Optional<Object[]> arguments;
