@@ -72,7 +72,7 @@ public interface TypifiableException<T extends TypifiableException> extends Supp
 	/**
 	 * Supplier implementation in order to reduce code boilerplate
 	 * 
-	 * @See Supplier
+	 * @see Supplier
 	 * @return this instance
 	 * @since 0.3.0
 	 */
