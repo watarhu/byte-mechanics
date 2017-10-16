@@ -28,7 +28,7 @@ import java.util.Optional;
  * @author afarre
  * @since 0.1.0
  */
-public class TypifiedError extends Error implements TypifiableException{
+public class TypifiedError extends Error implements TypifiableException<TypifiedError>{
 
 	private final ExceptionType exceptionType;
 	private final Optional<Object[]> arguments;
@@ -96,7 +96,7 @@ public class TypifiedError extends Error implements TypifiableException{
 	 */
 	@Override
 	public final Optional<Object[]> getArguments() {
-		return	this.arguments
+		return this.arguments
 					.map(args -> Arrays.copyOf(args, args.length));
 	}
 } 

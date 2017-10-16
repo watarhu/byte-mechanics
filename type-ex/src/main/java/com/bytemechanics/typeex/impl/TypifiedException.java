@@ -25,7 +25,7 @@ import java.util.Optional;
  *
  * @author afarre
  */
-public class TypifiedException extends RuntimeException implements TypifiableException{
+public class TypifiedException extends RuntimeException implements TypifiableException<TypifiedException>{
 
 	private final ExceptionType exceptionType;
 	private final Optional<Object[]> arguments;
