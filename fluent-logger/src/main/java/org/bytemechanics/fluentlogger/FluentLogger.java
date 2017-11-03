@@ -1,11 +1,10 @@
 package org.bytemechanics.fluentlogger;
 
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.bytemechanics.fluentlogger.internal.SimpleFormat;
 
 /**
  * @author afarre
@@ -38,7 +37,7 @@ public class FluentLogger{
 		}
 		this.logger=_logger;
 		this.prefix=Optional.ofNullable(_prefix)
-							.map(pref -> format(pref, _args))
+							.map(pref -> SimpleFormat.format(pref, _args))
 							.orElse("");
 	}
 
@@ -64,22 +63,25 @@ public class FluentLogger{
 
 	
 	public FluentLogger log(final Level _level, final String _message, final Object... _args) {
-		final String[] caller=Stream.of(Thread.currentThread().getStackTrace())
-			.skip(1)
-			.filter(stacktrace -> !stacktrace.getClassName().equals(FluentLogger.class.getName()))
-			.map(stacktrace -> new String[]{stacktrace.getClassName(), stacktrace.getMethodName()})
-			.findFirst()
-			.orElse(new String[]{"unknown", "unknown"});
-		if ((_args.length>0)
-			&&(_args[_args.length-1]!=null)
-			&&(Throwable.class.isAssignableFrom(_args[_args.length-1].getClass()))) {
-			this.logger.logp(_level, caller[0], caller[1], (Throwable) _args[_args.length-1], () -> this.prefix+Optional.ofNullable(_message)
-																										.map(message -> format(message, _args))
-																										.orElse(""));
-		} else {
-			this.logger.logp(_level, caller[0], caller[1], () -> this.prefix+Optional.ofNullable(_message)
-																	.map(message -> format(message, _args))
-																	.orElse(""));
+
+		if(this.logger.isLoggable(_level)){
+			final String[] caller=Stream.of(Thread.currentThread().getStackTrace())
+				.skip(1)
+				.filter(stacktrace -> !stacktrace.getClassName().equals(FluentLogger.class.getName()))
+				.map(stacktrace -> new String[]{stacktrace.getClassName(), stacktrace.getMethodName()})
+				.findFirst()
+				.orElse(new String[]{"unknown", "unknown"});
+			if ((_args.length>0)
+				&&(_args[_args.length-1]!=null)
+				&&(Throwable.class.isAssignableFrom(_args[_args.length-1].getClass()))) {
+				this.logger.logp(_level, caller[0], caller[1], (Throwable) _args[_args.length-1], () -> this.prefix+Optional.ofNullable(_message)
+																											.map(message -> SimpleFormat.format(message, _args))
+																											.orElse(""));
+			} else {
+				this.logger.logp(_level, caller[0], caller[1], () -> this.prefix+Optional.ofNullable(_message)
+																		.map(message -> SimpleFormat.format(message, _args))
+																		.orElse(""));
+			}
 		}
 		return this;
 	}
@@ -132,28 +134,5 @@ public class FluentLogger{
 	}
 	public Optional<String> getPrefix(){
 		return Optional.ofNullable((this.prefix.isEmpty())? null : this.prefix);
-	}
-	
-	protected final String format(final String _message, final Object... _args) {
-
-		return Optional.ofNullable(_message)
-			.filter(message -> _args.length>0)
-			.filter(message -> message.contains("{"))
-			.map(message -> Stream.of(message.split("\\{\\}"))
-			.flatMap(new Function<String, Stream<String>>() {
-
-				private int ic1=0;
-
-				@Override
-				public Stream<String> apply(final String _segment) {
-					return Stream.of(_segment, Optional.of(ic1++)
-						.filter(counter -> counter<_args.length)
-						.map(counter -> _args[counter])
-						.map(object -> String.valueOf(object))
-						.orElse(""));
-				}
-			})
-			.collect(Collectors.joining("")))
-			.orElse(_message);
 	}
 }

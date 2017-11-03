@@ -15,6 +15,7 @@
  */
 package com.bytemechanics.typeex;
 
+import com.bytemechanics.typeex.internal.SimpleFormat;
 import com.bytemechanics.typeex.internal.TypeExHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -65,7 +66,7 @@ public interface TypifiableException<T extends TypifiableException> extends Supp
 	 */
 	public default String getFormattedMessage() {
 		return getArguments()
-				.map(args -> TypeExHelper.format(getExceptionType().getMessage(), args))
+				.map(args -> SimpleFormat.format(getExceptionType().getMessage(), args))
 				.orElse(getExceptionType().getMessage());
 	}
 
@@ -92,7 +93,7 @@ public interface TypifiableException<T extends TypifiableException> extends Supp
 		return TypeExHelper.findSuitableConstructor(getExceptionType())
 							.flatMap(constructor -> TypeExHelper.instance(constructor,_cause, getExceptionType(),getArguments().orElse(null)))
 							.map(instance -> (T)instance)
-							.orElseThrow(() -> new Error(TypeExHelper.format("Unable to find any suitable constructor for class {} with arguments {}"
+							.orElseThrow(() -> new Error(SimpleFormat.format("Unable to find any suitable constructor for class {} with arguments {}"
 																	,getExceptionType().getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,getExceptionType().getClass(),Object[].class}))));
 	}
 
@@ -107,7 +108,7 @@ public interface TypifiableException<T extends TypifiableException> extends Supp
 		return TypeExHelper.findSuitableConstructor(getExceptionType())
 							.flatMap(constructor -> TypeExHelper.instance(constructor,getCause(), getExceptionType(),_args))
 							.map(instance -> (T)instance)
-							.orElseThrow(() -> new Error(TypeExHelper.format("Unable to find any suitable constructor for class {} with arguments {}"
+							.orElseThrow(() -> new Error(SimpleFormat.format("Unable to find any suitable constructor for class {} with arguments {}"
 																	,getExceptionType().getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,getExceptionType().getClass(),Object[].class}))));
 	}
 

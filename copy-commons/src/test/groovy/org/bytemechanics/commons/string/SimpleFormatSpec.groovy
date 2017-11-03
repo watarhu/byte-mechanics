@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.thegame.commons.exceptions;
+package org.bytemechanics.commons.string;
 
 import spock.lang.*
 import spock.lang.Specification
-import com.bytemechanics.typeex.*
-import com.bytemechanics.typeex.impl.*
-import com.bytemechanics.typeex.internal.*
+import org.bytemechanics.commons.string.*
 
 /**
  * @author afarre
  */
-class TypeExHelperSpec extends Specification {
+class SimpleFormatSpec extends Specification {
 
 	@Unroll
 	def "When #message is formatted with #arguments result should be #result"(){
 		when:
-			def String actual=TypeExHelper.format(message,(Object[])arguments);
+			def String actual=SimpleFormat.format(message,(Object[])arguments);
 			
 		then:
 			actual!=null

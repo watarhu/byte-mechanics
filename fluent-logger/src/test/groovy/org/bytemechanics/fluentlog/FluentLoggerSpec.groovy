@@ -1,4 +1,4 @@
-package com.thegame.commons.exceptions;
+package org.bytemechanics.fluentlog;
 
 import org.bytemechanics.fluentlog.test.LogHandlerMock;
 import org.bytemechanics.fluentlogger.FluentLogger;

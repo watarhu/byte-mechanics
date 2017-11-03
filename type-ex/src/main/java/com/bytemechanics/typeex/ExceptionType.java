@@ -16,6 +16,7 @@
 package com.bytemechanics.typeex;
 
 import com.bytemechanics.typeex.impl.TypifiedException;
+import com.bytemechanics.typeex.internal.SimpleFormat;
 import com.bytemechanics.typeex.internal.TypeExHelper;
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -75,7 +76,7 @@ public interface ExceptionType<T extends TypifiableException> extends Supplier<T
 		return TypeExHelper.findSuitableConstructor(this)
 							.flatMap(constructor -> TypeExHelper.instance(constructor,null, this))
 							.map(instance -> (T)instance)
-							.orElseThrow(() -> new Error(TypeExHelper.format("Unable to find any suitable constructor for class {} with arguments {}"
+							.orElseThrow(() -> new Error(SimpleFormat.format("Unable to find any suitable constructor for class {} with arguments {}"
 																	,this.getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,this.getClass(),Object[].class}))));
 	}
 
@@ -91,7 +92,7 @@ public interface ExceptionType<T extends TypifiableException> extends Supplier<T
 		return TypeExHelper.findSuitableConstructor(this)
 							.flatMap(constructor -> TypeExHelper.instance(constructor,_cause, this))
 							.map(instance -> (T)instance)
-							.orElseThrow(() -> new Error(TypeExHelper.format("Unable to find any suitable constructor for class {} with arguments {}"
+							.orElseThrow(() -> new Error(SimpleFormat.format("Unable to find any suitable constructor for class {} with arguments {}"
 																	,this.getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,this.getClass(),Object[].class}))));
 	}
 
@@ -108,7 +109,7 @@ public interface ExceptionType<T extends TypifiableException> extends Supplier<T
 		return TypeExHelper.findSuitableConstructor(this)
 							.flatMap(constructor -> TypeExHelper.instance(constructor,null, this,_args))
 							.map(instance -> (T)instance)
-							.orElseThrow(() -> new Error(TypeExHelper.format("Unable to find any suitable constructor for class {} with arguments {}"
+							.orElseThrow(() -> new Error(SimpleFormat.format("Unable to find any suitable constructor for class {} with arguments {}"
 																	,this.getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,this.getClass(),Object[].class}))));
 	}
 }
