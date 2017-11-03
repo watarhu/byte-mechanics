@@ -6,9 +6,9 @@
         <artifactId>byte-mechanics-parent</artifactId>
         <version>1.0.0</version>
     </parent>
-    <artifactId>fluent-logger</artifactId>
+    <artifactId>copy-commons</artifactId>
     <packaging>jar</packaging>
 	<version>0.1.0-SNAPSHOT</version>
-    <name>Fluent Logger</name>
-	<description>Simple logging abstraction with standard java logging system</description>
+    <name>Copy Commons</name>
+	<description>Base project to copy sources to the other projects in order to have a single place to test sources and keep zero dependencies in libraries</description>
 </project>

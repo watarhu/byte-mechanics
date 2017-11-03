@@ -53,77 +53,13 @@ public final class TypeExHelper {
 		Optional<TypifiableException> reply=Optional.empty();
 		
 		try {
-//System.out.println("ARGS:" +Arrays.asList(_args));
 			reply=Optional.ofNullable(_constructor.newInstance(_cause,_exceptionType,_args))
 							.map(instance -> (TypifiableException)instance);
-//System.out.println("reply:" +reply);
 			
 		} catch (SecurityException|InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException e) {
-			throw new Error(format("Unable to construct typified exception {} with class {} with arguments {} caused: {}",_exceptionType,_exceptionType.getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,_exceptionType.getClass(),Object[].class}), e.getMessage()),e);
+			throw new Error(SimpleFormat.format("Unable to construct typified exception {} with class {} with arguments {} caused: {}",_exceptionType,_exceptionType.getExceptionClass(),Arrays.asList(new Object[]{Throwable.class,_exceptionType.getClass(),Object[].class}), e.getMessage()),e);
 		}
 		
 		return reply;	
 	}
-	
-	public static final String format(final String _message, final Object... _args) {
-		
-		final StringBuilder builder=new StringBuilder();
-		
-		int lastBreak=0;
-		int numArg=0;
-		for(int ic1=0;ic1<_message.length();ic1++){
-			final char current=_message.charAt(ic1);
-			final char next=(ic1<_message.length()-1)? _message.charAt(ic1+1) : 'A';
-			if((current=='{')&&(next=='}')){
-				builder.append(_message.substring(lastBreak,ic1));
-				builder.append(Optional.of(numArg++)
-										.filter(counter -> counter<_args.length)
-										.map(counter -> _args[counter])
-										.map(object -> String.valueOf(object))
-										.orElse("null"));
-				ic1=lastBreak=ic1+2;
-			}
-		}
-		if(lastBreak<_message.length()){
-			builder.append(_message.substring(lastBreak,_message.length()));
-		}
-		
-		return builder.toString();
-/*		return Optional.ofNullable(_message)
-			.map(message -> Stream.of(message)
-									.flatMap(new Function<String, Stream<String>>() {
-
-										private int ic1=0;
-
-										@Override
-										public Stream<String> apply(final String _segment) {
-											int index=_segment.indexOf("{}");
-											return (index>-1) ? 
-														Stream.of(_segment.substring(0,index), 
-																	String.valueOf(_args[ic1++]),
-																	_segment.substring(index)) : 
-														Stream.of(_segment);
-										}
-									})
-									.collect(Collectors.joining(""))
-							)
-			.map(message -> Pattern.compile("\\{\\}")
-								.splitAsStream(message)
-								.flatMap(new Function<String, Stream<String>>() {
-
-									private int ic1=0;
-
-									@Override
-									public Stream<String> apply(final String _segment) {
-										return Stream.of(_segment, Optional.of(ic1++)
-																		.filter(counter -> counter<_args.length)
-																		.map(counter -> _args[counter])
-																		.map(object -> String.valueOf(object))
-																		.orElse(""));
-									}
-								})
-								.collect(Collectors.joining("")))
-			.orElse(_message);
-*/
-	}	
 }

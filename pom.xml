@@ -49,7 +49,8 @@
 	<modules>
 		<module>type-ex</module>
 	 <module>fluent-logger</module>
-	</modules>
+	 <module>copy-commons</module>
+  </modules>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
