@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bytemechanics.service.repository.internal.ObjectFactory;
 
 /**
@@ -38,6 +40,20 @@ public interface ServiceSupplier extends Supplier {
 	public Object getInstance();
 	public void setInstance(final Object _instance);	
 	
+	@SuppressWarnings("DoubleCheckedLocking")
+	public default Optional<Object> tryGet() {
+		
+		Optional<Object> reply=Optional.empty();
+
+		try{
+			reply=Optional.ofNullable(get());
+		}catch(Throwable e){
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,e,() -> MessageFormat.format("service::supplier::service::{0}::get::fail::{1}",getName(),e.getMessage()));
+		}
+				
+		return reply;
+	}
+
 	@Override
 	@SuppressWarnings("DoubleCheckedLocking")
 	public default Object get() {

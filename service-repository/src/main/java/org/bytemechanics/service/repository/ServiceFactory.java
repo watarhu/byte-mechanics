@@ -16,6 +16,7 @@
 package org.bytemechanics.service.repository;
 
 import java.text.MessageFormat;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -41,6 +42,13 @@ public interface ServiceFactory {
 	}
 	public default <T> T get(final Class<T> _class){
 		return (T)getServiceSupplier().get();
+	}
+	public default Optional<Object> tryGet(){
+		return getServiceSupplier().tryGet();
+	}
+	public default <T> Optional<T> tryGet(final Class<T> _class){
+		return getServiceSupplier().tryGet()
+							.map(object -> (T)object);
 	}
 	public default void init(){
 
