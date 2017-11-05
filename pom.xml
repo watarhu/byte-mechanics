@@ -50,7 +50,8 @@
 		<module>type-ex</module>
 	 <module>fluent-logger</module>
 	 <module>copy-commons</module>
-  </modules>
+	 <module>service-repository</module>
+	</modules>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
