@@ -32,7 +32,10 @@ public class DummieServiceImpl implements DummieService,Closeable {
 	
 	
 	public DummieServiceImpl(){
-		this(null,0,null,false);
+		this("no0arg",0,"no0arg",false);
+	}
+	public DummieServiceImpl(String _arg1){
+		this(_arg1,0,"no1arg",false);
 	}
 	public DummieServiceImpl(String _arg1,int _arg2,String _arg3){
 		this(_arg1,_arg2,_arg3,false);

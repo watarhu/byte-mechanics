@@ -23,6 +23,7 @@ import org.bytemechanics.service.repository.ServiceSupplier;
  * Default Service supplier implementation
  * @author afarre
  * @since 0.1.0
+ * @see ServiceSupplier
  */
 public class DefaultServiceSupplier implements ServiceSupplier{
 
@@ -33,12 +34,37 @@ public class DefaultServiceSupplier implements ServiceSupplier{
 	private volatile Object instance;
 	
 	
+	/**
+	 * Constructor of service supplier
+	 * @param <T> adapter class type
+	 * @param _name Service name
+	 * @param _adapter interface class that _iimplementation must implement
+	 * @param _implementation service implementation class
+	 * @param _args	Service arguments
+	 */
 	public <T> DefaultServiceSupplier(final String _name,final Class<T> _adapter,final Class<? extends T> _implementation,final Object... _args){
 		this(_name,_adapter,false,_implementation);
 	}
+	/**
+	 * Constructor of service supplier
+	 * @param <T> adapter class type
+	 * @param _name Service name
+	 * @param _adapter interface class that _iimplementation must implement
+	 * @param _isSingleton  singleton flag
+	 * @param _implementation service implementation class
+	 * @param _args	Service arguments
+	 */
 	public <T> DefaultServiceSupplier(final String _name,final Class<T> _adapter,final boolean _isSingleton,final Class<? extends T> _implementation,final Object... _args){
 		this(_name,_adapter,false,ServiceSupplier.generateSupplier(_name,_implementation,_args));
 	}
+	/**
+	 * Constructor of service supplier
+	 * @param <T> adapter class type
+	 * @param _name Service name
+	 * @param _adapter interface class that _iimplementation must implement
+	 * @param _isSingleton  singleton flag
+	 * @param _supplier adapter class implementation supplier
+	 */
 	public <T> DefaultServiceSupplier(final String _name,final Class<T> _adapter,final boolean _isSingleton,final Supplier<? extends T> _supplier){
 		this.name=_name;
 		this.adapter=_adapter;
@@ -47,28 +73,52 @@ public class DefaultServiceSupplier implements ServiceSupplier{
 		this.instance=null;
 	}
 
-	
+
+	/**
+	 * @return name
+	 * @see ServiceSupplier#getName() 
+	 */	
 	@Override
 	public String getName() {
 		return name;
 	}
+	/**
+	 * @return adaper class
+	 * @see ServiceSupplier#getAdapter()  
+	 */	
 	@Override
 	public Class getAdapter() {
 		return adapter;
 	}
+	/**
+	 * @return singleton indicator flag
+	 * @see ServiceSupplier#isSingleton()
+	 */	
 	@Override
 	public boolean isSingleton() {
 		return singleton;
 	}
+	/**
+	 * @return supplier
+	 * @see ServiceSupplier#getSupplier() 
+	 */	
 	@Override
 	public Supplier getSupplier() {
 		return supplier;
 	}
 
+	/**
+	 * @return current service instance or null
+	 * @see ServiceSupplier#getInstance() 
+	 */	
 	@Override
 	public Object getInstance() {
 		return instance;
 	}
+	/**
+	 * @param _instance instance to store
+	 * @see ServiceSupplier#getName() 
+	 */	
 	@Override
 	public void setInstance(final Object _instance) {
 		

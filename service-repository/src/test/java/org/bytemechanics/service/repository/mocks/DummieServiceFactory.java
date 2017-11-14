@@ -15,6 +15,7 @@
  */
 package org.bytemechanics.service.repository.mocks;
 
+import java.util.stream.Stream;
 import org.bytemechanics.service.repository.ServiceFactory;
 import org.bytemechanics.service.repository.ServiceSupplier;
 import org.bytemechanics.service.repository.beans.DefaultServiceSupplier;
@@ -25,15 +26,21 @@ import org.bytemechanics.service.repository.beans.DefaultServiceSupplier;
  */
 public enum DummieServiceFactory implements ServiceFactory {
 
-	DUMMIE_SERVICE(DummieService.class,DummieServiceImpl.class),
-	SINGLETON_DUMMIE_SERVICE(DummieService.class,DummieServiceImpl.class),
+	DUMMIE_SERVICE_0ARG(DummieService.class,DummieServiceImpl.class),
+	DUMMIE_SERVICE_1ARG(DummieService.class,DummieServiceImpl.class,"1arg-arg1"),
+	DUMMIE_SERVICE_3ARG(DummieService.class,DummieServiceImpl.class,"3arg-arg1",3,"3arg-arg2"),
+	DUMMIE_SERVICE_4ARG(DummieService.class,DummieServiceImpl.class,"4arg-arg1",4,"4arg-arg2",true),
+	SINGLETON_DUMMIE_SERVICE_0ARG(DummieService.class,true,DummieServiceImpl.class),
+	SINGLETON_DUMMIE_SERVICE_1ARG(DummieService.class,true,DummieServiceImpl.class,"1arg-arg1"),
+	SINGLETON_DUMMIE_SERVICE_3ARG(DummieService.class,true,DummieServiceImpl.class,"3arg-arg1",3,"3arg-arg2"),
+	SINGLETON_DUMMIE_SERVICE_4ARG(DummieService.class,true,DummieServiceImpl.class,"4arg-arg1",4,"4arg-arg2",true),
 	;
 
 	private final ServiceSupplier serviceSupplier;	
 		
 	
-	<T> DummieServiceFactory(final Class<T> _adapter,final Class<? extends T> _implementation){
-		this.serviceSupplier=new DefaultServiceSupplier(name(), _adapter, _implementation);
+	<T> DummieServiceFactory(final Class<T> _adapter,final Class<? extends T> _implementation,final Object... _args){
+		this.serviceSupplier=new DefaultServiceSupplier(name(), _adapter, _implementation,_args);
 	}
 	<T> DummieServiceFactory(final Class<T> _adapter,final boolean _singleton,final Class<? extends T> _implementation,final Object... _args){
 		this.serviceSupplier=new DefaultServiceSupplier(name(),_adapter,_singleton,_implementation,_args);
@@ -42,5 +49,16 @@ public enum DummieServiceFactory implements ServiceFactory {
 	@Override
 	public ServiceSupplier getServiceSupplier() {
 		return this.serviceSupplier;
+	}
+
+	
+	public static final void startup(){
+		ServiceFactory.startup(Stream.of(DummieServiceFactory.values()));
+	}
+	public static final void shutdown(){
+		ServiceFactory.shutdown(Stream.of(DummieServiceFactory.values()));
+	}
+	public static final void reset(){
+		ServiceFactory.reset(Stream.of(DummieServiceFactory.values()));
 	}
 }

@@ -23,6 +23,8 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bytemechanics.service.repository.exceptions.ServiceDisposeException;
+import org.bytemechanics.service.repository.exceptions.ServiceInitializationException;
 import org.bytemechanics.service.repository.internal.ObjectFactory;
 
 /**
@@ -32,14 +34,43 @@ import org.bytemechanics.service.repository.internal.ObjectFactory;
  */
 public interface ServiceSupplier extends Supplier {
 
+	/**
+	 * Method to return the service name
+	 * @return Service name
+	 */
 	public String getName();
+	/**
+	 * Method to return the service adapter interface that any implementation must accomplish in order to be an eligible implementation
+	 * @return Service adapter interface
+	 */
 	public Class getAdapter();
+	/**
+	 * Method to return if the service must be instantiated as singleton (only on instance in all virtual machine)
+	 * @return true if the this service is a singleton
+	 */
 	public boolean isSingleton();
+	/**
+	 * Method to return the current supplier for this service
+	 * @return the Supplier for this service
+	 * @see Supplier
+	 */
 	public Supplier getSupplier();
 
+	/**
+	 * Method to retrieve the current singleton service instance
+	 * @return singleton service instance or null if is not a singleton or still not instantiated
+	 */
 	public Object getInstance();
+	/**
+	 * Method to store the new singleton service instance
+	 * @param _instance instance to store
+	 */
 	public void setInstance(final Object _instance);	
 	
+	/**
+	 * Method to obtain the service instance, note that if the service is a singleton always returns the same instance
+	 * @return the optional service instance as Object that can be empty if the instance can not be obtained
+	 */
 	@SuppressWarnings("DoubleCheckedLocking")
 	public default Optional<Object> tryGet() {
 		
@@ -53,7 +84,14 @@ public interface ServiceSupplier extends Supplier {
 				
 		return reply;
 	}
-
+	
+	/**
+	 * Method to obtain the service instance, if is a singleton synchronized set the instance with #setInstance(instance) <br>
+	 * Note that if the service is a singleton always returns the same instance
+	 * @return the service instance as Object or null if the instance can not be obtained
+	 * @throws ServiceInitializationException when service can not be instantiated
+	 * @see Supplier#get() 
+	 */
 	@Override
 	@SuppressWarnings("DoubleCheckedLocking")
 	public default Object get() {
@@ -78,14 +116,24 @@ public interface ServiceSupplier extends Supplier {
 		return reply;
 	}
 	
+	/**
+	 * Service initialization; if is singleton then instantiate it by calling #get(), otherwise does nothing
+	 * @throws ServiceInitializationException when service can not be instantiated
+	 * @see #get() 
+	 */
 	public default void init(){
 
 		if(isSingleton()){
 			get();
 		}
 	}
+	/**
+	 * Synchronized service dispose. if is singleton AND implements Closeable then dispose it by calling Closeable#close() and removes current instance by calling #setInstance(null), otherwise does nothing
+	 * @throws ServiceDisposeException when service can not be disposed
+	 * @see Closeable#close() 
+	 */
 	@SuppressWarnings("UseSpecificCatch")
-	public default void close(){
+	public default void dispose(){
 		
 		if(isSingleton()){
 			Object current=getInstance();
@@ -97,7 +145,7 @@ public interface ServiceSupplier extends Supplier {
 							try {
 								((Closeable)current).close();
 							} catch (Throwable e) {
-								throw new RuntimeException("Close service {0} failed",e);
+								throw new ServiceDisposeException(getName(),e.getMessage(),e);
 							}
 						}
 						setInstance(null);
@@ -108,18 +156,25 @@ public interface ServiceSupplier extends Supplier {
 	}
 	
 	
+	/**
+	 * Utility method to generate implementation suppplier form the class implementation
+	 * @param <T> implementation class type
+	 * @param _name service name
+	 * @param _implementation implementation class
+	 * @param _attributes attributes to use when instantiate implementation class
+	 * @return Instance supplier of the service implementation
+	 * @see Supplier
+	 */
 	public static <T> Supplier<T> generateSupplier(final String _name,final Class<T> _implementation,final Object... _attributes){
 		return () -> ObjectFactory.of(_implementation)
 							.with(_attributes)
 							.supplier()
 							.get()
-							.orElseThrow(() -> new RuntimeException(MessageFormat
-																	.format("Unable to instantiate service {0} with class {1} using constructor({2})", 
-																		_name,
+							.orElseThrow(() -> new ServiceInitializationException(_name,MessageFormat
+																	.format("Unable to instantiate service with class {0} using constructor({1})", 
 																		_implementation,
 																		Optional.ofNullable(_attributes)
 																				.map(attributesArray -> Arrays.asList(attributesArray))
 																				.orElse(Collections.emptyList()))));
 	}
-
 }
